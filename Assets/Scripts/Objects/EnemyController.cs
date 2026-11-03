@@ -3,10 +3,18 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour
 {
     private EnemySave enemigo;
+    private float cdenemigo = 1;
+    private bool enemy = true;
+    public int enemigosMuertos = 0;
 
     private void Awake()
     {
         enemigo = GetComponent<EnemySave>();
+    }
+
+    void Update()
+    {
+        cdRespawn();
     }
 
     public void EliminarEnemigo()
@@ -27,5 +35,30 @@ public class EnemyController : MonoBehaviour
             enemigo.NotificarCambio();
 
         Debug.Log("El enemigo ha aparecido.");
+    }
+
+    public void cdRespawn()
+    {
+        if (enemy == false)
+        {
+            cdenemigo -= Time.deltaTime;
+            if (cdenemigo <= 0)
+            {
+                gameObject.SetActive(true);
+                cdenemigo = 1;
+                enemy = true;
+            }
+        }
+    }
+
+    public void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            gameObject.SetActive(false);
+            enemy = false;
+            enemigosMuertos++;
+
+        }
     }
 }
