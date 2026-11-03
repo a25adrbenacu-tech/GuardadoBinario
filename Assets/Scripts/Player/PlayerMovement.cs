@@ -1,12 +1,15 @@
 
+using Unity.VisualScripting;
 using UnityEngine;
+using TMPro;
 
 public class PlayerMovement : MonoBehaviour
 {
     public float velocidad = 5f;
 
     private PlayerSave jugador;
-
+    public SpawnMonedas spawnMonedas;
+    public int MonedasPlayer;
     void Awake()
     {
         jugador = GetComponent<PlayerSave>();
@@ -29,6 +32,21 @@ public class PlayerMovement : MonoBehaviour
 
             if (jugador != null)
                 jugador.NotificarCambio();
+        }
+    }
+
+    public void OnTriggerEnter(Collider collision)
+    {
+
+        if (collision.gameObject.CompareTag("Moneda") == true) {
+            
+            Destroy(collision.gameObject);
+            MonedasPlayer++;
+            spawnMonedas.monedaDestruida();
+
+
+
+
         }
     }
 }
