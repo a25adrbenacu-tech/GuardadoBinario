@@ -55,10 +55,12 @@ public class EnemyController : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            ContadorESave contador = FindObjectOfType<ContadorESave>(true);
+            if (contador != null)
+                contador.IncrementarEnemigosMuertos();
+
             gameObject.SetActive(false);
             enemy = false;
-            enemigosMuertos++;
-
         }
     }
 }

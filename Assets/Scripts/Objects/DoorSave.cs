@@ -7,20 +7,25 @@ public class DoorSave : SaveableObject
 
     public override void Guardar(SaveData datos)
     {
-        datos.puertaAbierta = puertaAbierta;
+        if (datos is DoorSaveData doorDat)
+        {
+            //guardar estado puerta
+            doorDat.puertaAbierta = puertaAbierta;
+        }
     }
 
     public override void Cargar(SaveData datos)
     {
-        puertaAbierta = datos.puertaAbierta;
+        if (datos is DoorSaveData doorDat)
+        {
+            //cargar estado puerta
+            puertaAbierta = doorDat.puertaAbierta;
 
-        if (puertaAbierta)
-            transform.rotation = Quaternion.Euler(0, 90, 0);
-        else
-            transform.rotation = Quaternion.Euler(0, 0, 0);
-
-        Debug.Log("Estado de la puerta cargado: " +
-            (puertaAbierta ? "ABIERTA" : "CERRADA"));
+            if (puertaAbierta)
+                transform.rotation = Quaternion.Euler(0, 90, 0);
+            else
+                transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
     }
 
     public void AbrirPuerta()
@@ -29,8 +34,6 @@ public class DoorSave : SaveableObject
         transform.rotation = Quaternion.Euler(0, 90, 0);
 
         NotificarCambio();
-
-        Debug.Log("La puerta se ha ABIERTO.");
     }
 
     public void CerrarPuerta()
@@ -39,7 +42,5 @@ public class DoorSave : SaveableObject
         transform.rotation = Quaternion.Euler(0, 0, 0);
 
         NotificarCambio();
-
-        Debug.Log("La puerta se ha CERRADO.");
     }
 }

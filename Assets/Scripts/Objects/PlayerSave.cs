@@ -7,25 +7,28 @@ public class PlayerSave : SaveableObject
 
     public override void Guardar(SaveData datos)
     {
-        // Guardar posición
-        datos.playerX = transform.position.x;
-        datos.playerY = transform.position.y;
-        datos.playerZ = transform.position.z;
-
-        // Guardar vida
-        datos.playerVida = vidaActual;
+        if (datos is PlayerSaveData playerDat)
+        {
+            //guardar posicion y vida
+            playerDat.playerX = transform.position.x;
+            playerDat.playerY = transform.position.y;
+            playerDat.playerZ = transform.position.z;
+            playerDat.playerVida = vidaActual;
+        }
     }
 
     public override void Cargar(SaveData datos)
     {
-        // Recuperar posición
-        transform.position = new Vector3(
-            datos.playerX,
-            datos.playerY,
-            datos.playerZ
-        );
+        if (datos is PlayerSaveData playerDat)
+        {
+            //cargar posicion y vida
+            transform.position = new Vector3(
+                playerDat.playerX,
+                playerDat.playerY,
+                playerDat.playerZ
+            );
 
-        // Recuperar vida
-        vidaActual = datos.playerVida;
+            vidaActual = playerDat.playerVida;
+        }
     }
 }

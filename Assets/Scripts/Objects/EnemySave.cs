@@ -2,24 +2,48 @@ using UnityEngine;
 
 public class EnemySave : SaveableObject
 {
+    private ContadorESave contadorEnemigos;
+
+    private void Awake()
+    {
+        //obtener contador enemigos
+        contadorEnemigos = GetComponent<ContadorESave>();
+    }
+
     public override void Guardar(SaveData datos)
     {
-        datos.enemyX = transform.position.x;
-        datos.enemyY = transform.position.y;
-        datos.enemyZ = transform.position.z;
-        datos.enemyActivo = gameObject.activeSelf;
+        if (datos is EnemySaveData enemyDat)
+        {
+            //guardar posicion, activo y contador enemigos
+            enemyDat.enemyX = transform.position.x;
+            enemyDat.enemyY = transform.position.y;
+            enemyDat.enemyZ = transform.position.z;
+            enemyDat.enemyActivo = gameObject.activeSelf;
+
+            if (contadorEnemigos != null)
+            {
+                enemyDat.enemigosMuertos = contadorEnemigos.EnemigosMuertos;
+            }
+        }
     }
 
     public override void Cargar(SaveData datos)
     {
-        transform.position = new Vector3(
-            datos.enemyX,
-            datos.enemyY,
-            datos.enemyZ
-        );
+        if (datos is EnemySaveData enemyDat)
+        {
+            //cargar posicion, activo y contador enemigos
+            transform.position = new Vector3(
+                enemyDat.enemyX,
+                enemyDat.enemyY,
+                enemyDat.enemyZ
+            );
 
-        gameObject.SetActive(datos.enemyActivo);
+            gameObject.SetActive(enemyDat.enemyActivo);
 
-        Debug.Log("Enemigo cargado. Activo: " + datos.enemyActivo);
+            if (contadorEnemigos != null)
+            {
+                contadorEnemigos.EnemigosMuertos = enemyDat.enemigosMuertos;
+            }
+        }
     }
 }

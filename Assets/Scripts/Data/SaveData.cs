@@ -1,20 +1,42 @@
 using System;
 
 [Serializable]
-public class SaveData
+public abstract class SaveData
 {
-    // Datos del jugador
+}
+
+[Serializable]
+public class PlayerSaveData : SaveData
+//datos jugador
+{
     public float playerX;
     public float playerY;
     public float playerZ;
     public int playerVida;
+}
 
-    // Datos de la puerta
+[Serializable]
+public class DoorSaveData : SaveData
+//datos puerta
+{
     public bool puertaAbierta;
+}
 
-    // Datos del enemigo
+[Serializable]
+public class EnemySaveData : SaveData
+//datos enemigo
+{
     public float enemyX;
     public float enemyY;
     public float enemyZ;
     public bool enemyActivo;
+    public int enemigosMuertos;
+}
+
+[Serializable]
+public class CoinSaveData : SaveData
+//datos monedas
+{
+    public int monedasRestantes;
+    public int monedasPlayer;
 }
